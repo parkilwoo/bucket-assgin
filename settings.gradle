@@ -2,4 +2,8 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
 rootProject.name = 'bucket_store'
+include 'common'
+include 'domain'
+include 'batch'
+include 'generator'
 

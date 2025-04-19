@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  bucket_mysql:
+    image: mysql:latest
+    container_name: bucket_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: bucket
+      MYSQL_USER: dlfdn
+      MYSQL_PASSWORD: dlfdn1
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-hd127.0.0.1", "-udlfdn", "-pdlfdn1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  generator:
+    build:
+      context: .
+      dockerfile: docker/generator.Dockerfile
+    depends_on:
+      - bucket_mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://bucket_mysql:3306/bucket
+      SPRING_DATASOURCE_USERNAME: dlfdn
+      SPRING_DATASOURCE_PASSWORD: dlfdn1
+
+  batch:
+    build:
+      context: .
+      dockerfile: docker/batch.Dockerfile
+    depends_on:
+      - bucket_mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://bucket_mysql:3306/bucket
+      SPRING_DATASOURCE_USERNAME: dlfdn
+      SPRING_DATASOURCE_PASSWORD: dlfdn1
+    volumes:
+      - ./data:/app/data:ro
+

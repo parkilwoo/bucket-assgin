@@ -1,0 +1,30 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '2.1.0'
+    id 'org.jetbrains.kotlin.plugin.spring' version '2.1.0'
+    id 'org.springframework.boot' version '3.4.4'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":common")
+    implementation project(":domain")
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-batch
+    implementation("org.springframework.boot:spring-boot-starter-batch:3.4.4")
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.4.4")
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-kotlin
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.19.0-rc2")
+    // https://mvnrepository.com/artifact/io.github.serpro69/kotlin-faker
+    implementation("io.github.serpro69:kotlin-faker:2.0.0-rc.9")
+
+    // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
+    runtimeOnly("com.mysql:mysql-connector-j:9.2.0")
+}
+
+kotlin {
+    jvmToolchain(23)
+}
